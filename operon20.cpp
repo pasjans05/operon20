@@ -1,4 +1,4 @@
-﻿// operon20.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
+// operon20.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
 //
 #include <iostream>
 #include <fstream>
@@ -36,12 +36,96 @@ int Jeden()
 		plik >> a >> b;
 		if (AnagrSpr(a, b)) ile++;
 	}
+	plik.close();
+	plik.open("anagramy.txt");
 	return ile;
+}
+
+bool Anagr1Spr(string a, string b)
+{
+	int nie = 0;
+	if (a.length() != b.length()) return false;
+	for (int i = 0; i < a.length(); i++)
+	{
+		bool spr = false;
+		for (int j = 0; j < b.length(); j++)
+		{
+			if (a[i] == b[j])
+			{
+				spr = true;
+				b[j] = 0;
+				a[i] = 0;
+			}
+		}
+		if (spr == false) nie++;
+	}
+	if (nie == 1) return true;
+	else return false;
+}
+
+char AnagrZnak(string a, string b)
+{
+	int nie = 0;
+	if (a.length() != b.length()) return false;
+	for (int i = 0; i < a.length(); i++)
+	{
+		bool spr = false;
+		for (int j = 0; j < b.length(); j++)
+		{
+			if (a[i] == b[j])
+			{
+				spr = true;
+				b[j] = 0;
+				a[i] = 0;
+			}
+		}
+		if (spr == false) return a[i];
+	}
+}
+
+/*char AnagrPoz(string a, string b)
+{
+	int nie = 0;
+	if (a.length() != b.length()) return false;
+	for (int i = 0; i < a.length(); i++)
+	{
+		//bool spr = false;
+		for (int j = 0; j < b.length(); j++)
+		{
+			if (a[i] == b[j])
+			{
+				//spr = true;
+				b[j] = 0;
+				a[i] = 0;
+			}
+		}
+		//if (spr == false) return a[i];
+	}
+	for (int i=0; )
+}*/
+
+void Dwa()
+{
+	string a;
+	string b;
+	for (int i = 0; i < 200; i++)
+	{
+		plik >> a >> b;
+		int poz;
+		char znak;
+		if (Anagr1Spr(a, b))
+		{
+			znak = AnagrZnak(a, b);
+
+			cout << a << "\t" << b << "\t" << poz << "\t" << znak << endl;
+		}
+	}
 }
 
 int main()
 {
-	cout << Jeden() << " par to anagramy\n";
+	cout << Jeden() << " pary to anagramy\n";
+	Dwa();
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
