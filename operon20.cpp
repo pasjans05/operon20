@@ -6,45 +6,10 @@ using namespace std;
 
 ifstream plik("anagramy.txt");
 
-bool AnagrSpr(string a, string b)
-{
-	if (a.length() != b.length()) return false;
-	for (int i = 0; i < a.length(); i++)
-	{
-		bool spr = false;
-		for (int j = 0; j < b.length(); j++)
-		{
-			if (a[i] == b[j])
-			{
-				spr = true;
-				b[j] = 0;
-				a[i] = 0;
-			}
-		}
-		if (spr == false) return false;
-	}
-	return true;
-}
-
-int Jeden()
-{
-	string a;
-	string b;
-	int ile = 0;
-	for (int i = 0; i < 200; i++)
-	{
-		plik >> a >> b;
-		if (AnagrSpr(a, b)) ile++;
-	}
-	plik.close();
-	plik.open("anagramy.txt");
-	return ile;
-}
-
-bool Anagr1Spr(string a, string b)
+int AnagrSpr(string a, string b)
 {
 	int nie = 0;
-	if (a.length() != b.length()) return false;
+	if (a.length() != b.length()) return 2;
 	for (int i = 0; i < a.length(); i++)
 	{
 		bool spr = false;
@@ -59,50 +24,48 @@ bool Anagr1Spr(string a, string b)
 		}
 		if (spr == false) nie++;
 	}
-	if (nie == 1) return true;
-	else return false;
+	return nie;
 }
 
-char AnagrZnak(string a, string b)
+int Jeden()
 {
-	int nie = 0;
-	if (a.length() != b.length()) return false;
-	for (int i = 0; i < a.length(); i++)
+	string a;
+	string b;
+	int ile = 0;
+	for (int i = 0; i < 200; i++)
 	{
-		bool spr = false;
-		for (int j = 0; j < b.length(); j++)
+		plik >> a >> b;
+		if (AnagrSpr(a, b) == 0)
+		{
+			ile++;
+		}
+	}
+	plik.close();
+	plik.open("anagramy.txt");
+	return ile;
+}
+
+void AnagrPozZnak(string a, string b)
+{
+	for (int i = a.length() - 1; i >= 0; i--)
+	{
+		for (int j = b.length() - 1; j >= 0; j--)
 		{
 			if (a[i] == b[j])
 			{
-				spr = true;
 				b[j] = 0;
 				a[i] = 0;
 			}
 		}
-		if (spr == false) return a[i];
 	}
-}
-
-/*char AnagrPoz(string a, string b)
-{
-	int nie = 0;
-	if (a.length() != b.length()) return false;
 	for (int i = 0; i < a.length(); i++)
 	{
-		//bool spr = false;
 		for (int j = 0; j < b.length(); j++)
 		{
-			if (a[i] == b[j])
-			{
-				//spr = true;
-				b[j] = 0;
-				a[i] = 0;
-			}
+			if (a[i] != 0 && b[j] != 0) cout << a[i] << "\t" << j+1 << endl;
 		}
-		//if (spr == false) return a[i];
 	}
-	for (int i=0; )
-}*/
+}
 
 void Dwa()
 {
@@ -113,18 +76,17 @@ void Dwa()
 		plik >> a >> b;
 		int poz;
 		char znak;
-		if (Anagr1Spr(a, b))
+		if (AnagrSpr(a, b) == 1)
 		{
-			znak = AnagrZnak(a, b);
-
-			cout << a << "\t" << b << "\t" << poz << "\t" << znak << endl;
+			cout << a << "\t" << b << "\t";
+			AnagrPozZnak(a, b);
 		}
 	}
 }
 
 int main()
 {
-	cout << Jeden() << " pary to anagramy\n";
+	cout << Jeden() << " pary to anagramy\n" << endl;
 	Dwa();
 }
 
