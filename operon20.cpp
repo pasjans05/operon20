@@ -2,6 +2,7 @@
 //
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 using namespace std;
 
 ifstream plik("anagramy.txt");
@@ -84,10 +85,21 @@ void Dwa()
 	}
 }
 
+void Trzy()
+{
+	string bura = "bura";
+	sort(bura.begin(), bura.end());
+	do
+	{
+		cout << bura << endl;
+	} while (next_permutation(bura.begin(), bura.end()));
+}
+
 int main()
 {
 	cout << Jeden() << " pary to anagramy\n" << endl;
 	Dwa();
+	Trzy();
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
