@@ -3,9 +3,12 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 ifstream plik("anagramy.txt");
+ifstream plik2("wyrazy.txt");
+fstream plik3("wyniki.txt");
 
 int AnagrSpr(string a, string b)
 {
@@ -85,21 +88,59 @@ void Dwa()
 	}
 }
 
-void Trzy()
+void Trzy(string a)
 {
-	string bura = "bura";
-	sort(bura.begin(), bura.end());
+	sort(a.begin(), a.end());
 	do
 	{
-		cout << bura << endl;
-	} while (next_permutation(bura.begin(), bura.end()));
+		cout << a << endl;
+	} while (next_permutation(a.begin(), a.end()));
+}
+
+void Trzy2(string a)
+{
+	sort(a.begin(), a.end());
+	do
+	{
+		plik3 << a << endl;
+	} while (next_permutation(a.begin(), a.end()));
+}
+
+void Cztery()
+{
+	string wyraz;
+	int i = 1;
+	while (plik2.good())
+	{
+		plik2 >> wyraz;
+		plik3 << "WYRAZ " << i << endl << endl;
+		Trzy2(wyraz);
+		i++;
+	}
+	plik2.close();
+	plik2.open("wyrazy.txt");
+}
+
+bool spr()
+{
+	string a;
+	string b;
+	while (plik3.good())
+	{
+		getline(plik2, a);
+		getline(plik3, b);
+		if (a != b) return false;
+	}
+	return true;
 }
 
 int main()
 {
 	cout << Jeden() << " pary to anagramy\n" << endl;
 	Dwa();
-	Trzy();
+	Trzy("bura");
+	Cztery();
+	cout << "czy poprawne: " << spr();
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
